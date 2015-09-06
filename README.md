@@ -25,7 +25,7 @@ This will be shown when you call :ShowLeaderCommnads:
 Installation
 ============
 
-If you are using a plugin
+If you are using Vundle:
 
     Bundle 'ivan-cukic/vim-leader-list'
 
@@ -35,7 +35,7 @@ You'll need Vim compiled with Python2 support.
 Usage
 =====
 
-Just call the `ShowLeaderCommnads` command.
+Just call the `ShowLeaderCommands` command.
 
 
 Configuration
