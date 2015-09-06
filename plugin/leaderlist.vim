@@ -15,9 +15,9 @@ def get_vim_value(name, default):
 show_all = get_vim_value('g:leaderlist_show_all_mappings', '0')
 
 if show_all == '1':
-    matcher = re.compile('^.*(map *)([^ ]*) *([^ ]*) *"" *(.*)$')
+    matcher = re.compile('^.*(map *)([^ ]*) *(.*) *"" *(.*)$')
 else:
-    matcher = re.compile('^.*(map *<Leader>)([^ ]*) *([^ ]*) *"" *(.*)$')
+    matcher = re.compile('^.*(map *<Leader>)([^ ]*) *(.*) *"" *(.*)$')
 
 mapping_separator      = get_vim_value('g:leaderlist_mapping_separator', "❯")
 command_separator      = get_vim_value('g:leaderlist_command_separator', "|")
@@ -35,6 +35,9 @@ def spaces(string, maximum):
     return " " * (maximum - len(string))
 
 for line in open(vim.eval('expand("~/.vimrc")')):
+
+    line = line.replace('<silent>', '')
+
     matched = matcher.match(line)
     if matched:
         mapping     = matched.group(2)
