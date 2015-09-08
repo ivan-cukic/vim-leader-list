@@ -15,9 +15,9 @@ def get_vim_value(name, default):
 show_all = get_vim_value('g:leaderlist_show_all_mappings', '0')
 
 if show_all == '1':
-    matcher = re.compile('^.*(map *)([^ ]*) *(.*) *"-- *(.*)$')
+    matcher = re.compile('^.*(map *)([^ ]*) *(.*) *"" *(.*)$')
 else:
-    matcher = re.compile('^.*(map *<Leader>)([^ ]*) *(.*) *"-- *(.*)$')
+    matcher = re.compile('^.*(map *<Leader>)([^ ]*) *(.*) *"" *(.*)$')
 
 mapping_separator      = get_vim_value('g:leaderlist_mapping_separator', "❯")
 command_separator      = get_vim_value('g:leaderlist_command_separator', "|")
