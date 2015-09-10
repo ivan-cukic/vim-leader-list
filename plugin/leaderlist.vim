@@ -15,9 +15,9 @@ def get_vim_value(name, default):
 show_all = get_vim_value('g:leaderlist_show_all_mappings', '0')
 
 if show_all == '1':
-    matcher = re.compile('^.*(map *)([^ ]*) *(.*) *"" *(.*)$')
+    matcher = re.compile('^.*([vni])[a-z]*(map *)([^ ]*) *(.*) *"" *(.*)$')
 else:
-    matcher = re.compile('^.*(map *<Leader>)([^ ]*) *(.*) *"" *(.*)$')
+    matcher = re.compile('^.*([vni])[a-z]*(map *<Leader>)([^ ]*) *(.*) *"" *(.*)$')
 
 mapping_separator      = get_vim_value('g:leaderlist_mapping_separator', "❯")
 command_separator      = get_vim_value('g:leaderlist_command_separator', "|")
@@ -40,9 +40,10 @@ for line in open(vim.eval('expand("~/.vimrc")')):
 
     matched = matcher.match(line)
     if matched:
-        mapping     = matched.group(2)
-        description = matched.group(4)
-        command     = matched.group(3)
+        where       = matched.group(1)
+        mapping     = matched.group(3)
+        description = matched.group(5)
+        command     = matched.group(4)
 
         mapping_length = len(mapping)
 
@@ -51,16 +52,16 @@ for line in open(vim.eval('expand("~/.vimrc")')):
             if leader_conceal in mapping:
                 mapping_length -= leader_conceal_adj
 
-        current_line = (mapping, description, command)
+        current_line = (where, mapping, description, command)
 
         longest_description = max(longest_description, len(description))
         longest_mapping = max(longest_mapping, mapping_length)
 
         matched_lines += [current_line]
 
-for (mapping, description, command) in matched_lines:
+for (where, mapping, description, command) in matched_lines:
     adj = - leader_conceal_adj if leader_conceal in mapping else 0
-    to_write = spaces(mapping, longest_mapping + adj) + " " + mapping + " " + mapping_separator + " " + \
+    to_write = where + " " + spaces(mapping, longest_mapping + adj) + " " + mapping + " " + mapping_separator + " " + \
                description + spaces(description, longest_description) + " " + command_separator + " " + \
                command
     vim.command('echom "' + to_write.replace('"', '\\"') + '"')
