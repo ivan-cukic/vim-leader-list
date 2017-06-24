@@ -1,6 +1,6 @@
 
 function! leaderlist#show()
-python << endpython
+python3 << endpython
 
 import re
 
